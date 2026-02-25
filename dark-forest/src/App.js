@@ -1,106 +1,62 @@
+// App.js
+// ─────────────────────────────────────────────────────────────
+// Root component. Manages all game state (health, gold, charisma)
+// and renders whichever scene is currently active.
+//
+// TO ADD A NEW SCENE:
+//   1. Create a new file in src/scenes/yourfolder/YourScene.js
+//   2. Import it below
+//   3. Add it to the sceneMap object with a string key
+//   4. Point any choice's goTo() call at that key
+// ─────────────────────────────────────────────────────────────
 import { useState } from "react";
 import "./App.css";
 
-// ─── Scene Data ───────────────────────────────────────────────────────────────
-const scenes = {
-  scene1: {
-    title: "The Forest's Edge",
-    text: (
-      <>
-        You stand at the edge of a vast, dark forest. The trees loom tall and twisted,
-        their branches blocking out the moon. Somewhere deep within, you can hear
-        the faint sound of <em>running water</em> — and something else.
-        A low, rhythmic <em>drumming</em>.
-        <br /><br />
-        You grip your lantern tightly. You're here for a reason, but you can't remember what it is.
-        In fact, you can't even remember what your name is. What was it?
-      </>
-    ),
-    choices: [
-      { label: "Mason Waters",    sceneId: "masonWaters", healthChange: undefined, moneyChange: -100000 },
-      { label: "Cameron Gietzen", sceneId: "comingSoon",  healthChange: undefined, moneyChange: undefined },
-      { label: "Henry Harkins",   sceneId: "henryHarkins", healthChange: 50,       moneyChange: undefined, unlockCharisma: true },
-      { label: "Wes Dayley",      sceneId: "comingSoon",  healthChange: undefined, moneyChange: undefined },
-    ],
-  },
+// ── Component imports ──
+import StatsBar  from "./components/StatsBar";
+import Popup     from "./components/Popup";
 
-  masonWaters: {
-    title: "You Wake Up",
-    text: (
-      <>
-        <br />
-        Your alarm is <em>blaring</em>. The grey of twilight dimly lights the room.<br />
-        Shit. You're late for school, you haven't done the reading, ...<em>and you're on call!</em>
-        <br /><br />
-        Ya got no gumption.
-      </>
-    ),
-    choices: [
-      { label: "Slap the snooze button and go back to sleep", sceneId: "comingSoon" },
-      { label: "Jump out of bed and rush to school",          sceneId: "comingSoon" },
-    ],
-  },
+// ── Scene imports ──
+import ForestEdge   from "./scenes/start/ForestEdge";
+import MasonWakes   from "./scenes/mason/MasonWakes";
+import HenryHarkins from "./scenes/henry/HenryHarkins";
+import ComingSoon   from "./scenes/shared/ComingSoon";
 
-  henryHarkins: {
-    title: "You Remember Now",
-    text: (
-      <>
-        That's right. You're fricken <em>Hard</em> Henry Harkins.<br />
-        You regrip your lantern, flexing.<br />
-        Your shirt strains then <em>rips</em> as your muscles <em>bulge</em>.
-        <br /><br />
-        Who dah man? You dah man.
-      </>
-    ),
-    choices: [
-      { label: "Flex one more time, for the girls in the back", sceneId: "comingSoon" },
-      { label: "Follow the river downstream",                   sceneId: "comingSoon" },
-      { label: "Swim across the river",                         sceneId: "comingSoon" },
-    ],
-  },
-
-  comingSoon: {
-    title: "Coming Soon",
-    text: (
-      <>
-        <em>I'm working on this.</em>
-        <br /><br />
-        <em>Tip? ... please?</em>
-      </>
-    ),
-    isComingSoon: true,
-  },
+// ── Scene map ─────────────────────────────────────────────────
+// Add new scenes here. The key is the string you pass to goTo().
+const sceneMap = {
+  forestEdge:    ForestEdge,
+  masonWakes:    MasonWakes,
+  henryHarkins:  HenryHarkins,
+  comingSoon:    ComingSoon,
 };
 
-// ─── App ──────────────────────────────────────────────────────────────────────
-export default function App() {
-  const [currentScene, setCurrentScene] = useState("scene1");
-  const [health,   setHealth]   = useState(100);
-  const [gold,     setGold]     = useState(10);
-  const [charisma, setCharisma] = useState(80);
-  const [showCharisma, setShowCharisma] = useState(false);
-  const [popup,    setPopup]    = useState(null);  // null = hidden, string = message
-  const [bodyRed,  setBodyRed]  = useState(false);
+// ─────────────────────────────────────────────────────────────
 
-  // ── Navigation ──────────────────────────────────────────────────────────────
-  function goTo(sceneId, healthChange, moneyChange, unlockCharisma) {
+export default function App() {
+  const [currentScene, setCurrentScene] = useState("forestEdge");
+  const [health,        setHealth]       = useState(100);
+  const [gold,          setGold]         = useState(10);
+  const [charisma,      setCharisma]     = useState(80);
+  const [showCharisma,  setShowCharisma] = useState(false);
+  const [popup,         setPopup]        = useState(null);
+  const [bodyRed,       setBodyRed]      = useState(false);
+
+  // ── Navigation ──────────────────────────────────────────────
+  function goTo(sceneId, healthChange, moneyChange) {
     setCurrentScene(sceneId);
     window.scrollTo({ top: 0, behavior: "smooth" });
-
     if (healthChange !== undefined) applyHealth(healthChange);
     if (moneyChange  !== undefined) applyGold(moneyChange);
-    if (unlockCharisma) {
-      setShowCharisma(true);
-      setPopup("You have discovered the Charisma Stat (80)");
-    }
   }
 
+  // ── Stat helpers ────────────────────────────────────────────
   function applyHealth(amount) {
     setHealth(prev => {
       const next = prev + amount;
       setPopup("Your health has changed: " + amount);
       if (next <= 0) {
-        setPopup("Your Health has dropped to 0. You have died.");
+        setPopup("Your health has dropped to 0. You have died.");
         setBodyRed(true);
       }
       return next;
@@ -114,6 +70,12 @@ export default function App() {
     });
   }
 
+  function unlockCharisma() {
+    setShowCharisma(true);
+    setPopup("You have discovered the Charisma Stat (80)");
+  }
+
+  // ── Restart ─────────────────────────────────────────────────
   function restart() {
     setHealth(100);
     setGold(10);
@@ -121,11 +83,11 @@ export default function App() {
     setShowCharisma(false);
     setBodyRed(false);
     setPopup(null);
-    setCurrentScene("scene1");
+    setCurrentScene("forestEdge");
   }
 
-  // ── Render ──────────────────────────────────────────────────────────────────
-  const scene = scenes[currentScene];
+  // ── Render ──────────────────────────────────────────────────
+  const CurrentScene = sceneMap[currentScene];
 
   return (
     <div className={`page${bodyRed ? " red-bg" : ""}`}>
@@ -141,12 +103,7 @@ export default function App() {
       </a>
 
       {/* Popup */}
-      {popup && (
-        <div className="popup">
-          <p className="popup-message">{popup}</p>
-          <button className="restart-btn" onClick={() => setPopup(null)}>OK</button>
-        </div>
-      )}
+      <Popup message={popup} onClose={() => setPopup(null)} />
 
       <div id="game-container">
 
@@ -157,64 +114,25 @@ export default function App() {
         </div>
 
         {/* Stats */}
-        <div className="stats">
-          <div className="stat">Health: <span>{health}</span></div>
-          <div className="stat">Gold: <span>{gold}</span></div>
-          {showCharisma && (
-            <div className="stat">Charisma: <span>{charisma}</span></div>
-          )}
-        </div>
+        <StatsBar
+          health={health}
+          gold={gold}
+          charisma={charisma}
+          showCharisma={showCharisma}
+        />
 
         <div className="divider">⁕ ⁕ ⁕</div>
 
-        {/* Scene */}
-        <div className="scene active" key={currentScene}>
-          <div className="scene-title">{scene.title}</div>
-          <div className="scene-text">{scene.text}</div>
-
-          {scene.isComingSoon ? (
-            <>
-              <div style={{ textAlign: "center", marginBottom: "16px" }}>
-                <button className="restart-btn" onClick={restart}>Play Again</button>
-                <button
-                  className="restart-btn"
-                  style={{ marginLeft: "12px" }}
-                  onClick={() => window.open("https://docs.google.com/forms/d/e/1FAIpQLSdBtXTODMNiQdnPWXTB8I5iuLjeHwozUUPaZbfkNifedUi0eA/viewform?usp=publish-editor")}
-                >
-                  Make a Suggestion!
-                </button>
-              </div>
-              <div className="choices">
-                {[100, 50, 20].map(amt => (
-                  <button
-                    key={amt}
-                    className="choice-btn"
-                    onClick={() => window.open("https://venmo.com/u/Cameron-Gietzen")}
-                  >
-                    Yes please. ${amt}
-                  </button>
-                ))}
-              </div>
-            </>
-          ) : (
-            <div className="choices">
-              {scene.choices.map((choice, i) => (
-                <button
-                  key={i}
-                  className="choice-btn"
-                  onClick={() => goTo(
-                    choice.sceneId,
-                    choice.healthChange,
-                    choice.moneyChange,
-                    choice.unlockCharisma
-                  )}
-                >
-                  {choice.label}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
+        {/* Active Scene — passes down everything it might need */}
+        <CurrentScene
+          key={currentScene}
+          goTo={goTo}
+          restart={restart}
+          unlockCharisma={unlockCharisma}
+          health={health}
+          gold={gold}
+          charisma={charisma}
+        />
 
       </div>
     </div>
