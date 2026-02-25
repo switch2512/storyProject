@@ -5,6 +5,7 @@
 // ─────────────────────────────────────────────────────────────
 import Scene      from "../../components/Scene";
 import ComingSoon from "../ComingSoon";
+import henry1 from "./henry1";
 
 export default function HenryHarkins({ goTo }) {
   return (
@@ -20,7 +21,7 @@ export default function HenryHarkins({ goTo }) {
         </>
       }
     >
-      <button className="choice-btn" onClick={() => goTo(ComingSoon)}>
+      <button className="choice-btn" onClick={() => goTo(henry1, 50)}>
         Flex one more time, for the girls in the back
       </button>
       <button className="choice-btn" onClick={() => goTo(ComingSoon)}>

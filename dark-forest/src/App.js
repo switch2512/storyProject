@@ -30,7 +30,11 @@ export default function App() {
   const [charisma,      setCharisma]     = useState(80);
   const [showCharisma,  setShowCharisma] = useState(false);
   const [popupQueue,    setPopupQueue]   = useState([]);
+  const [pendingCount,  setPendingCount] = useState(0);
   const [bodyRed,       setBodyRed]      = useState(false);
+
+  // True from the moment delayedPopup is called until the last popup is dismissed.
+  const blocked = pendingCount > 0 || popupQueue.length > 0;
 
   // ── Navigation ──────────────────────────────────────────────
   function goTo(Scene, healthChange, moneyChange) {
@@ -43,7 +47,11 @@ export default function App() {
 
   // ── Stat helpers ────────────────────────────────────────────
   function delayedPopup(message) {
-    setTimeout(() => setPopupQueue(q => [...q, message]), 1000);
+    setPendingCount(c => c + 1);
+    setTimeout(() => {
+      setPopupQueue(q => [...q, message]);
+      setPendingCount(c => c - 1);
+    }, 1000);
   }
 
   function dismissPopup() {
@@ -65,7 +73,11 @@ export default function App() {
 
   function applyGold(amount) {
     setGold(gold + amount);
-    delayedPopup("Your gold has changed: " + amount.toLocaleString());
+    if (amount > 0) {
+      delayedPopup("Your gold has increased by " + amount.toLocaleString());
+    } else {
+      delayedPopup("Your gold has changed by " + amount.toLocaleString())
+    }
   }
 
   function unlockCharisma() {
@@ -81,6 +93,7 @@ export default function App() {
     setShowCharisma(false);
     setBodyRed(false);
     setPopupQueue([]);
+    setPendingCount(0);
     setCurrentScene(() => ForestEdge);
   }
 
@@ -104,6 +117,9 @@ export default function App() {
       >
         Make a Suggestion
       </a>
+
+      {/* Click blocker — active during delay and while popup is open */}
+      {blocked && <div className="click-blocker" />}
 
       {/* Popup */}
       <Popup message={popupQueue[0]} onClose={dismissPopup} />
