@@ -152,6 +152,16 @@
   font-weight: 600;
 }
 
+.stat-flash {
+  animation: statFlash 0.6s ease-out;
+}
+
+@keyframes statFlash {
+  0%   { color: #ffffff; text-shadow: 0 0 8px rgba(255, 255, 255, 0.9); }
+  60%  { color: #f0dfa0; text-shadow: 0 0 4px rgba(200, 168, 75, 0.5); }
+  100% { color: #c8a84b; text-shadow: none; }
+}
+
 /* ── Buttons ── */
 .restart-btn {
   background: transparent;
@@ -167,6 +177,28 @@
 }
 
 .restart-btn:hover {
+  background-color: #c8a84b;
+  color: #0d0d0d;
+}
+
+.top-left-btn {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  background: transparent;
+  border: 1px solid #c8a84b;
+  color: #c8a84b;
+  padding: 10px 18px;
+  font-family: 'Uncial Antiqua', cursive;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  z-index: 1000;
+}
+
+.top-left-btn:hover {
   background-color: #c8a84b;
   color: #0d0d0d;
 }

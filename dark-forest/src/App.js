@@ -11,6 +11,7 @@
 // ─────────────────────────────────────────────────────────────
 import { useState } from "react";
 import "./App.css";
+import { SUGGESTION_URL } from "./constants";
 
 // ── Component imports ──
 import StatsBar  from "./components/StatsBar";
@@ -51,28 +52,29 @@ export default function App() {
   }
 
   // ── Stat helpers ────────────────────────────────────────────
+  function delayedPopup(message) {
+    setTimeout(() => setPopup(message), 2000);
+  }
+
   function applyHealth(amount) {
-    setHealth(prev => {
-      const next = prev + amount;
-      setPopup("Your health has changed: " + amount);
-      if (next <= 0) {
-        setPopup("Your health has dropped to 0. You have died.");
-        setBodyRed(true);
-      }
-      return next;
-    });
+    const next = health + amount;
+    setHealth(next);
+    if (next <= 0) {
+      delayedPopup("Your health has dropped to 0. You have died.");
+      setBodyRed(true);
+    } else {
+      delayedPopup("Your health has changed: " + amount);
+    }
   }
 
   function applyGold(amount) {
-    setGold(prev => {
-      setPopup("Your gold has changed: $" + amount);
-      return prev + amount;
-    });
+    setGold(gold + amount);
+    delayedPopup("Your gold has changed: $" + amount);
   }
 
   function unlockCharisma() {
     setShowCharisma(true);
-    setPopup("You have discovered the Charisma Stat (80)");
+    delayedPopup("You have discovered the Charisma Stat (80)");
   }
 
   // ── Restart ─────────────────────────────────────────────────
@@ -92,10 +94,15 @@ export default function App() {
   return (
     <div className={`page${bodyRed ? " red-bg" : ""}`}>
 
+      {/* Top-left restart button */}
+      <button className="top-left-btn" onClick={restart}>
+        Play Again
+      </button>
+
       {/* Top-right suggestion button */}
       <a
         className="top-right-btn"
-        href="https://docs.google.com/forms/d/e/1FAIpQLSdBtXTODMNiQdnPWXTB8I5iuLjeHwozUUPaZbfkNifedUi0eA/viewform?usp=publish-editor"
+        href={SUGGESTION_URL}
         target="_blank"
         rel="noreferrer"
       >
