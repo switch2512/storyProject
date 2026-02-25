@@ -3,7 +3,8 @@
 // Mason Waters branch — Scene 1
 // Mason wakes up late for school.
 // ─────────────────────────────────────────────────────────────
-import Scene from "../../components/Scene";
+import Scene      from "../../components/Scene";
+import ComingSoon from "../ComingSoon";
 
 export default function MasonWakes({ goTo }) {
   return (
@@ -19,10 +20,10 @@ export default function MasonWakes({ goTo }) {
         </>
       }
     >
-      <button className="choice-btn" onClick={() => goTo("comingSoon")}>
+      <button className="choice-btn" onClick={() => goTo(ComingSoon)}>
         Slap the snooze button and go back to sleep
       </button>
-      <button className="choice-btn" onClick={() => goTo("comingSoon")}>
+      <button className="choice-btn" onClick={() => goTo(ComingSoon)}>
         Jump out of bed and rush to school
       </button>
     </Scene>

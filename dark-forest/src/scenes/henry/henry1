@@ -3,10 +3,9 @@
 // Henry Harkins branch — Scene 1
 // Henry remembers who he is. He is hard.
 // ─────────────────────────────────────────────────────────────
-import Scene      from "../../components/Scene";
-import ComingSoon from "../ComingSoon";
+import Scene from "../../components/Scene";
 
-export default function HenryHarkins({ goTo }) {
+export default function henry1({ goTo }) {
   return (
     <Scene
       title="You Remember Now"
@@ -20,13 +19,13 @@ export default function HenryHarkins({ goTo }) {
         </>
       }
     >
-      <button className="choice-btn" onClick={() => goTo(ComingSoon)}>
+      <button className="choice-btn" onClick={() => goTo("henry1")}>
         Flex one more time, for the girls in the back
       </button>
-      <button className="choice-btn" onClick={() => goTo(ComingSoon)}>
+      <button className="choice-btn" onClick={() => goTo("comingSoon")}>
         Follow the river downstream
       </button>
-      <button className="choice-btn" onClick={() => goTo(ComingSoon)}>
+      <button className="choice-btn" onClick={() => goTo("comingSoon")}>
         Swim across the river
       </button>
     </Scene>

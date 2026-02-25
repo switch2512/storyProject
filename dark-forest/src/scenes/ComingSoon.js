@@ -12,23 +12,24 @@ export default function ComingSoon({ restart }) {
       text={
         <>
           <em>I'm working on this.</em>
+            <div style={{ textAlign: "center", marginBottom: "20px" }}>
+              <button className="restart-btn" onClick={restart}>
+                Play Again
+              </button>
+              <button
+                className="restart-btn"
+                style={{ marginLeft: "12px" }}
+                onClick={() => window.open(SUGGESTION_URL)}
+              >
+                Make a Suggestion!
+              </button>
+            </div>
           <br /><br />
           <em>Tip? ... please?</em>
         </>
       }
     >
-      <div style={{ textAlign: "center", marginBottom: "20px" }}>
-        <button className="restart-btn" onClick={restart}>
-          Play Again
-        </button>
-        <button
-          className="restart-btn"
-          style={{ marginLeft: "12px" }}
-          onClick={() => window.open(SUGGESTION_URL)}
-        >
-          Make a Suggestion!
-        </button>
-      </div>
+
 
       {[100, 50, 20].map((amt) => (
         <button

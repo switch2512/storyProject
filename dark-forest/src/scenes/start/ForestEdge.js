@@ -2,7 +2,10 @@
 // ─────────────────────────────────────────────────────────────
 // Scene 1 — The opening scene. Player picks their character.
 // ─────────────────────────────────────────────────────────────
-import Scene from "../../components/Scene";
+import Scene       from "../../components/Scene";
+import MasonWakes  from "../mason/MasonWakes";
+import HenryHarkins from "../henry/HenryHarkins";
+import ComingSoon  from "../ComingSoon";
 
 export default function ForestEdge({ goTo, unlockCharisma }) {
   return (
@@ -20,16 +23,16 @@ export default function ForestEdge({ goTo, unlockCharisma }) {
         </>
       }
     >
-      <button className="choice-btn" onClick={() => goTo("masonWakes", undefined, -100000)}>
+      <button className="choice-btn" onClick={() => goTo(MasonWakes, undefined, -100000)}>
         Mason Waters
       </button>
-      <button className="choice-btn" onClick={() => goTo("comingSoon")}>
+      <button className="choice-btn" onClick={() => goTo(ComingSoon)}>
         Cameron Gietzen
       </button>
-      <button className="choice-btn" onClick={() => { unlockCharisma(); goTo("henryHarkins", 50); }}>
+      <button className="choice-btn" onClick={() => { unlockCharisma(); goTo(HenryHarkins, +50); }}>
         Henry Harkins
       </button>
-      <button className="choice-btn" onClick={() => goTo("comingSoon")}>
+      <button className="choice-btn" onClick={() => goTo(ComingSoon)}>
         Wes Dayley
       </button>
     </Scene>

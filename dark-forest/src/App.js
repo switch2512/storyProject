@@ -5,9 +5,8 @@
 //
 // TO ADD A NEW SCENE:
 //   1. Create a new file in src/scenes/yourfolder/YourScene.js
-//   2. Import it below
-//   3. Add it to the sceneMap object with a string key
-//   4. Point any choice's goTo() call at that key
+//   2. Import it in whichever scene(s) link to it
+//   3. Pass it directly to goTo() — no registration needed
 // ─────────────────────────────────────────────────────────────
 import { useState } from "react";
 import "./App.css";
@@ -17,35 +16,26 @@ import { SUGGESTION_URL } from "./constants";
 import StatsBar  from "./components/StatsBar";
 import Popup     from "./components/Popup";
 
-// ── Scene imports ──
-import ForestEdge   from "./scenes/start/ForestEdge";
-import MasonWakes   from "./scenes/mason/MasonWakes";
-import HenryHarkins from "./scenes/henry/HenryHarkins";
-import ComingSoon   from "./scenes/ComingSoon";
-
-// ── Scene map ─────────────────────────────────────────────────
-// Add new scenes here. The key is the string you pass to goTo().
-const sceneMap = {
-  forestEdge:    ForestEdge,
-  masonWakes:    MasonWakes,
-  henryHarkins:  HenryHarkins,
-  comingSoon:    ComingSoon,
-};
+// ── Initial scene ──
+import ForestEdge from "./scenes/start/ForestEdge";
 
 // ─────────────────────────────────────────────────────────────
 
 export default function App() {
-  const [currentScene, setCurrentScene] = useState("forestEdge");
+  // useState(() => ForestEdge) uses the lazy-initializer form so React
+  // doesn't mistake the component function for a state initializer.
+  const [currentScene, setCurrentScene] = useState(() => ForestEdge);
   const [health,        setHealth]       = useState(100);
   const [gold,          setGold]         = useState(10);
   const [charisma,      setCharisma]     = useState(80);
   const [showCharisma,  setShowCharisma] = useState(false);
-  const [popup,         setPopup]        = useState(null);
+  const [popupQueue,    setPopupQueue]   = useState([]);
   const [bodyRed,       setBodyRed]      = useState(false);
 
   // ── Navigation ──────────────────────────────────────────────
-  function goTo(sceneId, healthChange, moneyChange) {
-    setCurrentScene(sceneId);
+  function goTo(Scene, healthChange, moneyChange) {
+    // () => Scene tells React the new state IS the component, not its return value.
+    setCurrentScene(() => Scene);
     window.scrollTo({ top: 0, behavior: "smooth" });
     if (healthChange !== undefined) applyHealth(healthChange);
     if (moneyChange  !== undefined) applyGold(moneyChange);
@@ -53,7 +43,11 @@ export default function App() {
 
   // ── Stat helpers ────────────────────────────────────────────
   function delayedPopup(message) {
-    setTimeout(() => setPopup(message), 2000);
+    setTimeout(() => setPopupQueue(q => [...q, message]), 1000);
+  }
+
+  function dismissPopup() {
+    setPopupQueue(q => q.slice(1));
   }
 
   function applyHealth(amount) {
@@ -62,14 +56,16 @@ export default function App() {
     if (next <= 0) {
       delayedPopup("Your health has dropped to 0. You have died.");
       setBodyRed(true);
+    } else if (amount > 0) {
+      delayedPopup("Your health has increased by " + amount);
     } else {
-      delayedPopup("Your health has changed: " + amount);
+      delayedPopup("Your health has decreased by " + amount)
     }
   }
 
   function applyGold(amount) {
     setGold(gold + amount);
-    delayedPopup("Your gold has changed: $" + amount);
+    delayedPopup("Your gold has changed: " + amount.toLocaleString());
   }
 
   function unlockCharisma() {
@@ -84,12 +80,12 @@ export default function App() {
     setCharisma(80);
     setShowCharisma(false);
     setBodyRed(false);
-    setPopup(null);
-    setCurrentScene("forestEdge");
+    setPopupQueue([]);
+    setCurrentScene(() => ForestEdge);
   }
 
   // ── Render ──────────────────────────────────────────────────
-  const CurrentScene = sceneMap[currentScene];
+  const CurrentScene = currentScene;
 
   return (
     <div className={`page${bodyRed ? " red-bg" : ""}`}>
@@ -110,7 +106,7 @@ export default function App() {
       </a>
 
       {/* Popup */}
-      <Popup message={popup} onClose={() => setPopup(null)} />
+      <Popup message={popupQueue[0]} onClose={dismissPopup} />
 
       <div id="game-container">
 
@@ -132,7 +128,7 @@ export default function App() {
 
         {/* Active Scene — passes down everything it might need */}
         <CurrentScene
-          key={currentScene}
+          key={CurrentScene.name}
           goTo={goTo}
           restart={restart}
           unlockCharisma={unlockCharisma}
