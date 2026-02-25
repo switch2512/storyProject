@@ -20,7 +20,7 @@ import Popup     from "./components/Popup";
 import ForestEdge   from "./scenes/start/ForestEdge";
 import MasonWakes   from "./scenes/mason/MasonWakes";
 import HenryHarkins from "./scenes/henry/HenryHarkins";
-import ComingSoon   from "./scenes/shared/ComingSoon";
+import ComingSoon   from "./scenes/ComingSoon";
 
 // ── Scene map ─────────────────────────────────────────────────
 // Add new scenes here. The key is the string you pass to goTo().
