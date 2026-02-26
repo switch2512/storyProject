@@ -32,6 +32,8 @@ export default function App() {
   const [popupQueue,    setPopupQueue]   = useState([]);
   const [pendingCount,  setPendingCount] = useState(0);
   const [bodyRed,       setBodyRed]      = useState(false);
+  const [gameTitle,     setGameTitle]   = useState("The Dark Forest");
+  const [backgroundColor, setBackgroundColor] = useState();
 
   // True from the moment delayedPopup is called until the last popup is dismissed.
   const blocked = pendingCount > 0 || popupQueue.length > 0;
@@ -45,7 +47,7 @@ export default function App() {
     if (moneyChange  !== undefined) applyGold(moneyChange);
   }
 
-  // ── Stat helpers ────────────────────────────────────────────
+  // ── Cameron's Functions ────────────────────────────────────────────
   function delayedPopup(message) {
     setPendingCount(c => c + 1);
     setTimeout(() => {
@@ -94,6 +96,14 @@ export default function App() {
     delayedPopup("You have discovered the Charisma Stat (80)");
   }
 
+  function newTitle(name) {
+    setGameTitle(name)
+  }
+
+  function changeBackgroundColor(color) {
+    setBackgroundColor(color)
+  }
+
   // ── Restart ─────────────────────────────────────────────────
   function restart() {
     setHealth(100);
@@ -104,13 +114,14 @@ export default function App() {
     setPopupQueue([]);
     setPendingCount(0);
     setCurrentScene(() => ForestEdge);
+    setGameTitle("The Dark Forest")
   }
 
   // ── Render ──────────────────────────────────────────────────
   const CurrentScene = currentScene;
 
   return (
-    <div className={`page${bodyRed ? " red-bg" : ""}`}>
+    <div className={`page${bodyRed ? " red-bg" : ""}` } style={{backgroundColor: backgroundColor}}>
 
       {/* Top-left restart button */}
       <button className="top-left-btn" onClick={restart}>
@@ -137,7 +148,7 @@ export default function App() {
 
         {/* Header */}
         <div className="header">
-          <div className="game-title">The Dark Forest</div>
+          <div className="game-title">{gameTitle}</div>
           <div className="game-subtitle">A Choose Your Own Adventure</div>
         </div>
 
@@ -161,6 +172,8 @@ export default function App() {
           gold={gold}
           charisma={charisma}
           applyCharisma={applyCharisma}
+          newTitle={newTitle}
+          changeBackgroundColor={changeBackgroundColor}
         />
 
       </div>

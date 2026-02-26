@@ -5,9 +5,10 @@
 import Scene       from "../../components/Scene";
 import MasonWakes  from "../mason/MasonWakes";
 import HenryHarkins from "../henry/HenryHarkins";
+import cedricVain from "../cedricVain/cedric1"
 import ComingSoon  from "../ComingSoon";
 
-export default function ForestEdge({ goTo, unlockCharisma }) {
+export default function ForestEdge({ goTo, unlockCharisma, newTitle }) {
   return (
     <Scene
       title="The Forest's Edge"
@@ -17,17 +18,20 @@ export default function ForestEdge({ goTo, unlockCharisma }) {
           their branches blocking out the moon. Somewhere deep within, you can hear
           the faint sound of <em>running water</em> — and something else.
           A low, rhythmic <em>drumming</em>.
-          <br /><br />
-          You grip your lantern tightly. You're here for a reason, but you can't remember what it is.
-          In fact, you can't even remember what your name is. What was it?
+          <br/><br/>
+          You grip your lantern tightly. You're here for a reason, but you can't remember what it is.<br />
+          In fact, you can't even remember what your name is. 
+          <br/><br/>
+          The darkness of the forest seems to leak from between the trees.<br/>
+          Its tendrils swirl, closing in from all sides. What was your <em>name</em>?
         </>
       }
     >
       <button className="choice-btn" onClick={() => goTo(MasonWakes, undefined, -100000)}>
         Mason Waters
       </button>
-      <button className="choice-btn" onClick={() => goTo(ComingSoon)}>
-        Cameron Gietzen
+      <button className="choice-btn" onClick={() => { goTo(cedricVain); newTitle("Establishment Space")}}>
+        Cedric Vain
       </button>
       <button className="choice-btn" onClick={() => { unlockCharisma(); goTo(HenryHarkins, +50); }}>
         Henry Harkins
