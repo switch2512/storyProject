@@ -5,23 +5,24 @@
 // ─────────────────────────────────────────────────────────────
 import Scene      from "../../components/Scene";
 import ComingSoon from "../ComingSoon";
+import henry7 from "./henry7"
 
-export default function henry1({ goTo }) {
+export default function henry6({ goTo }) {
   return (
     <Scene
-      title="You Remember Now"
+      title="NNNNUUUUUUUUHHH"
       text={
         <>
-          That's right. You're fricken <em>Hard</em> Henry Harkins.<br />
-          You regrip your lantern, flexing.<br />
-          Your shirt strains then <em>rips</em> as your muscles <em>bulge</em>.
+          You flex again.<br/>
+          Your shorts <em>snap</em> all at once, leaving you in nothing but a loin cloth. <br/>
+          But <em>damn</em>, you make that loin cloth look <em>good</em>.
           <br /><br />
-          Who dah man? You dah man.
+          However, your muscles have grown so big that you're having trouble moving freely.
         </>
       }
     >
-      <button className="choice-btn" onClick={() => goTo(henry1, 50)}>
-        Flex one more time, for the girls in the back
+      <button className="choice-btn" onClick={() => goTo(henry7, -100000)}>
+        Just oooooooooooone more
       </button>
       <button className="choice-btn" onClick={() => goTo(ComingSoon)}>
         Follow the river downstream

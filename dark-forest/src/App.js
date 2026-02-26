@@ -80,6 +80,15 @@ export default function App() {
     }
   }
 
+  function applyCharisma (amount) {
+    setCharisma(charisma + amount);
+    if (amount > 0) {
+      delayedPopup("Your charisma has increase by " + amount)
+    } else {
+      delayedPopup("Your charisma has changed by " + amount)
+    }
+  }
+
   function unlockCharisma() {
     setShowCharisma(true);
     delayedPopup("You have discovered the Charisma Stat (80)");
@@ -151,6 +160,7 @@ export default function App() {
           health={health}
           gold={gold}
           charisma={charisma}
+          applyCharisma={applyCharisma}
         />
 
       </div>
