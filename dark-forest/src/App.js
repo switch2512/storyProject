@@ -31,9 +31,8 @@ export default function App() {
   const [showCharisma,  setShowCharisma] = useState(false);
   const [popupQueue,    setPopupQueue]   = useState([]);
   const [pendingCount,  setPendingCount] = useState(0);
-  const [bodyRed,       setBodyRed]      = useState(false);
-  const [gameTitle,     setGameTitle]   = useState("The Dark Forest");
-  const [backgroundColor, setBackgroundColor] = useState();
+  const [bodyRed,       setBodyRed]      = useState("");
+  const [gameTitle,     setGameTitle]   = useState("The Dark Forest")
 
   // True from the moment delayedPopup is called until the last popup is dismissed.
   const blocked = pendingCount > 0 || popupQueue.length > 0;
@@ -65,7 +64,7 @@ export default function App() {
     setHealth(next);
     if (next <= 0) {
       delayedPopup("Your health has dropped to 0. You have died.");
-      setBodyRed(true);
+      setBodyRed("red-bg");
     } else if (amount > 0) {
       delayedPopup("Your health has increased by " + amount);
     } else {
@@ -100,10 +99,6 @@ export default function App() {
     setGameTitle(name)
   }
 
-  function changeBackgroundColor(color) {
-    setBackgroundColor(color)
-  }
-
   // ── Restart ─────────────────────────────────────────────────
   function restart() {
     setHealth(100);
@@ -121,7 +116,7 @@ export default function App() {
   const CurrentScene = currentScene;
 
   return (
-    <div className={`page${bodyRed ? " red-bg" : ""}` } style={{backgroundColor: backgroundColor}}>
+    <div className={ "page " + bodyRed }>
 
       {/* Top-left restart button */}
       <button className="top-left-btn" onClick={restart}>
@@ -173,7 +168,6 @@ export default function App() {
           charisma={charisma}
           applyCharisma={applyCharisma}
           newTitle={newTitle}
-          changeBackgroundColor={changeBackgroundColor}
         />
 
       </div>
