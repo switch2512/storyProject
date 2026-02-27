@@ -24,7 +24,7 @@ import ForestEdge from "./scenes/start/ForestEdge";
 export default function App() {
   // useState(() => ForestEdge) uses the lazy-initializer form so React
   // doesn't mistake the component function for a state initializer.
-  const [currentScene, setCurrentScene] = useState(() => ForestEdge);
+  const [currentScene, setCurrentScene]  = useState(() => ForestEdge);
   const [health,        setHealth]       = useState(100);
   const [gold,          setGold]         = useState(10);
   const [charisma,      setCharisma]     = useState(80);
@@ -32,7 +32,8 @@ export default function App() {
   const [popupQueue,    setPopupQueue]   = useState([]);
   const [pendingCount,  setPendingCount] = useState(0);
   const [bodyRed,       setBodyRed]      = useState("");
-  const [gameTitle,     setGameTitle]   = useState("The Dark Forest")
+  const [gameTitle,     setGameTitle]    = useState("The Dark Forest");
+  const [enemyHealth,   setEnemyHealth]  = useState(0)
 
   // True from the moment delayedPopup is called until the last popup is dismissed.
   const blocked = pendingCount > 0 || popupQueue.length > 0;
@@ -97,6 +98,15 @@ export default function App() {
 
   function newTitle(name) {
     setGameTitle(name)
+  }
+  // ── Enemy Functions ─────────────────────────────────────────────────
+  function applyEnemyHealth(amount) {
+    setEnemyHealth(enemyHealth + amount)
+    if (enemyHealth < 1) {
+      delayedPopup("Enemy defeated!")
+    } else {
+      delayedPopup("Enemy took " + amount + " damage.")
+    }
   }
 
   // ── Restart ─────────────────────────────────────────────────
@@ -168,6 +178,7 @@ export default function App() {
           charisma={charisma}
           applyCharisma={applyCharisma}
           newTitle={newTitle}
+          applyEnemyHealth={applyEnemyHealth}
         />
 
       </div>

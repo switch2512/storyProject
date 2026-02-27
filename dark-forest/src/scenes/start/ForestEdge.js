@@ -33,7 +33,7 @@ export default function ForestEdge({ goTo, unlockCharisma, newTitle }) {
       <button className="choice-btn" onClick={() => { goTo(cedricVain); newTitle("Establishment Space")}}>
         Cedric Vain
       </button>
-      <button className="choice-btn" onClick={() => { unlockCharisma(); goTo(HenryHarkins, +50); }}>
+      <button className="choice-btn" onClick={() => { unlockCharisma(); goTo(HenryHarkins, +50); newTitle("The Hard Adventures of Hard Henry Harkins")}}>
         Henry Harkins
       </button>
       <button className="choice-btn" onClick={() => goTo(ComingSoon)}>
