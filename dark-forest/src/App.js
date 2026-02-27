@@ -34,8 +34,9 @@ export default function App() {
   const [pendingCount,  setPendingCount] = useState(0);
   const [bodyRed,       setBodyRed]      = useState("");
   const [gameTitle,     setGameTitle]    = useState("The Dark Forest");
-  const [enemyHealth,   setEnemyHealth]  = useState(0)
-  const [enemyType, setEnemyType]        = useState("")
+  const [enemyHealth,   setEnemyHealth]  = useState(0);
+  const [enemyType,     setEnemyType]    = useState("");
+  const [image,             setImage]    = useState("");
 
   // True from the moment delayedPopup is called until the last popup is dismissed.
   const blocked = pendingCount > 0 || popupQueue.length > 0;
@@ -56,6 +57,10 @@ export default function App() {
       setPopupQueue(q => [...q, message]);
       setPendingCount(c => c - 1);
     }, 1000);
+  }
+
+  function summonImage(image) {
+    setImage(image)
   }
 
   function dismissPopup() {
@@ -130,6 +135,7 @@ export default function App() {
     setCurrentScene(() => ForestEdge);
     setGameTitle("The Dark Forest")
     setEnemyType("")
+    setImage("");
   }
 
   // ── Render ──────────────────────────────────────────────────
@@ -191,10 +197,12 @@ export default function App() {
             newTitle={newTitle}
             applyEnemyHealth={applyEnemyHealth}
             summonEnemy={summonEnemy}
+            summonImage={summonImage}
           />
           <Enemy
             enemyType={enemyType}
             enemyHealth={enemyHealth}
+            image={image}
           />
         </div>
       </div>

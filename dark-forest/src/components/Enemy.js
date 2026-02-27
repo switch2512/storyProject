@@ -54,29 +54,50 @@ function AnimatedStat({ label, value }) {
 }
 
 export default function Enemy({ enemyType, enemyHealth, image }) {
-  if (!enemyType) return null;
+    if (enemyType) {
+        return (
+            <>
+            <style>{flashStyles}</style>
+            <div className="enemy-panel">
 
-  return (
-    <>
-      <style>{flashStyles}</style>
-      <div className="enemy-panel">
+                {/* Enemy image — supply an image prop to fill this */}
+                <div className="enemy-image-box">
+                    <img src={`${process.env.PUBLIC_URL}/enemies/${enemyType}.png`} alt={enemyType} />
+                </div>
 
-        {/* Enemy image — supply an image prop to fill this */}
-        <div className="enemy-image-box">
-            <img src={`${process.env.PUBLIC_URL}/enemies/${enemyType}.png`} alt={enemyType} />
-        </div>
+                {/* Enemy name */}
+                <div className="scene-title" style={{ marginBottom: 0, textAlign: "center" }}>
+                {enemyType}
+                </div>
 
-        {/* Enemy name */}
-        <div className="scene-title" style={{ marginBottom: 0, textAlign: "center" }}>
-          {enemyType}
-        </div>
+                {/* Enemy health */}
+                <div className="stats" style={{ justifyContent: "center" }}>
+                <AnimatedStat label="HP" value={enemyHealth} />
+                </div>
 
-        {/* Enemy health */}
-        <div className="stats" style={{ justifyContent: "center" }}>
-          <AnimatedStat label="HP" value={enemyHealth} />
-        </div>
+            </div>
+            </>
+        );
+    } else if (image) {
+        return (
+            <>
+            <style>{flashStyles}</style>
+            <div className="enemy-panel">
 
-      </div>
-    </>
-  );
+                {/* Enemy image — supply an image prop to fill this */}
+                <div className="enemy-image-box">
+                    <img src={`${process.env.PUBLIC_URL}/images/${image}.png`} alt={enemyType} />
+                </div>
+
+                {/* Enemy name */}
+                <div className="scene-title" style={{ marginBottom: 0, textAlign: "center" }}>
+                {image}
+                </div>
+            </div>
+            </>
+        )
+    }
+    if (!enemyType) return null;
+
+
 }

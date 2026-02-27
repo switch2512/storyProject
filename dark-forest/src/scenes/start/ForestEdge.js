@@ -8,7 +8,7 @@ import HenryHarkins from "../henry/HenryHarkins";
 import cedricVain from "../cedricVain/cedric1"
 import ComingSoon  from "../ComingSoon";
 
-export default function ForestEdge({ goTo, unlockCharisma, newTitle, summonEnemy }) {
+export default function ForestEdge({ goTo, unlockCharisma, newTitle, summonImage }) {
   return (
     <Scene
       title="The Forest's Edge"
@@ -27,7 +27,7 @@ export default function ForestEdge({ goTo, unlockCharisma, newTitle, summonEnemy
         </>
       }
     >
-      <button className="choice-btn" onClick={() => { goTo(cedricVain); newTitle("Establishment Space")}}>
+      <button className="choice-btn" onClick={() => { goTo(cedricVain); newTitle("Establishment Space") }}>
         Cedric Vain
       </button>
       <button className="choice-btn" onClick={() => { unlockCharisma(); goTo(HenryHarkins, +50); newTitle("The Hard Adventures of Hard Henry Harkins")}}>
@@ -36,7 +36,7 @@ export default function ForestEdge({ goTo, unlockCharisma, newTitle, summonEnemy
       <button className="choice-btn" onClick={() => goTo(ComingSoon)}>
         Wes Dayley
       </button>
-      <button className="choice-btn" onClick={() => { goTo(testing); summonEnemy("Ork", 100)}}>
+      <button className="choice-btn" onClick={() => { goTo(testing); summonImage("Ork")}}>
         Testing Button
       </button>
     </Scene>
