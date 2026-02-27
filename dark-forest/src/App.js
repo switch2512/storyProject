@@ -15,6 +15,7 @@ import { SUGGESTION_URL } from "./constants";
 // ── Component imports ──
 import StatsBar  from "./components/StatsBar";
 import Popup     from "./components/Popup";
+import Enemy     from "./components/Enemy"
 
 // ── Initial scene ──
 import ForestEdge from "./scenes/start/ForestEdge";
@@ -34,6 +35,7 @@ export default function App() {
   const [bodyRed,       setBodyRed]      = useState("");
   const [gameTitle,     setGameTitle]    = useState("The Dark Forest");
   const [enemyHealth,   setEnemyHealth]  = useState(0)
+  const [enemyType, setEnemyType]        = useState("")
 
   // True from the moment delayedPopup is called until the last popup is dismissed.
   const blocked = pendingCount > 0 || popupQueue.length > 0;
@@ -104,9 +106,16 @@ export default function App() {
     setEnemyHealth(enemyHealth + amount)
     if (enemyHealth < 1) {
       delayedPopup("Enemy defeated!")
+      setEnemyType("")
     } else {
       delayedPopup("Enemy took " + amount + " damage.")
     }
+  }
+
+  function summonEnemy(type, health) {
+    setEnemyType(type)
+    setEnemyHealth(health)
+
   }
 
   // ── Restart ─────────────────────────────────────────────────
@@ -120,6 +129,7 @@ export default function App() {
     setPendingCount(0);
     setCurrentScene(() => ForestEdge);
     setGameTitle("The Dark Forest")
+    setEnemyType("")
   }
 
   // ── Render ──────────────────────────────────────────────────
@@ -167,20 +177,26 @@ export default function App() {
 
         <div className="divider">⁕ ⁕ ⁕</div>
 
-        {/* Active Scene — passes down everything it might need */}
-        <CurrentScene
-          key={CurrentScene.name}
-          goTo={goTo}
-          restart={restart}
-          unlockCharisma={unlockCharisma}
-          health={health}
-          gold={gold}
-          charisma={charisma}
-          applyCharisma={applyCharisma}
-          newTitle={newTitle}
-          applyEnemyHealth={applyEnemyHealth}
-        />
-
+        {/* Scene + Enemy side by side */}
+        <div className="scene-row">
+          <CurrentScene
+            key={CurrentScene.name}
+            goTo={goTo}
+            restart={restart}
+            unlockCharisma={unlockCharisma}
+            health={health}
+            gold={gold}
+            charisma={charisma}
+            applyCharisma={applyCharisma}
+            newTitle={newTitle}
+            applyEnemyHealth={applyEnemyHealth}
+            summonEnemy={summonEnemy}
+          />
+          <Enemy
+            enemyType={enemyType}
+            enemyHealth={enemyHealth}
+          />
+        </div>
       </div>
     </div>
   );

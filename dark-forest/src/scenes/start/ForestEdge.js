@@ -3,12 +3,12 @@
 // Scene 1 — The opening scene. Player picks their character.
 // ─────────────────────────────────────────────────────────────
 import Scene       from "../../components/Scene";
-import MasonWakes  from "../mason/MasonWakes";
+import testing  from "../testing/testing";
 import HenryHarkins from "../henry/HenryHarkins";
 import cedricVain from "../cedricVain/cedric1"
 import ComingSoon  from "../ComingSoon";
 
-export default function ForestEdge({ goTo, unlockCharisma, newTitle }) {
+export default function ForestEdge({ goTo, unlockCharisma, newTitle, summonEnemy }) {
   return (
     <Scene
       title="The Forest's Edge"
@@ -27,9 +27,6 @@ export default function ForestEdge({ goTo, unlockCharisma, newTitle }) {
         </>
       }
     >
-      <button className="choice-btn" onClick={() => goTo(MasonWakes, undefined, -100000)}>
-        Mason Waters
-      </button>
       <button className="choice-btn" onClick={() => { goTo(cedricVain); newTitle("Establishment Space")}}>
         Cedric Vain
       </button>
@@ -38,6 +35,9 @@ export default function ForestEdge({ goTo, unlockCharisma, newTitle }) {
       </button>
       <button className="choice-btn" onClick={() => goTo(ComingSoon)}>
         Wes Dayley
+      </button>
+      <button className="choice-btn" onClick={() => { goTo(testing); summonEnemy("Ork", 100)}}>
+        Testing Button
       </button>
     </Scene>
   );
