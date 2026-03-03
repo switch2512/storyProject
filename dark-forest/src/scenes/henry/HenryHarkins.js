@@ -8,7 +8,7 @@ import ComingSoon from "../ComingSoon";
 import henry2     from "./henry2";
 import henry8     from      "./henry8"
 
-export default function HenryHarkins({ goTo }) {
+export default function HenryHarkins({ goTo, applyCharacter }) {
   return (
     <Scene
       title="You Remember Now"
@@ -22,7 +22,7 @@ export default function HenryHarkins({ goTo }) {
         </>
       }
     >
-      <button className="choice-btn" onClick={() => goTo(henry2, 50)}>
+      <button className="choice-btn" onClick={() => { goTo(henry2, 50); applyCharacter("Hard Henry Harkins") }}>
         Flex one more time, for the girls in the back
       </button>
       <button className="choice-btn" onClick={() => goTo(henry8)}>

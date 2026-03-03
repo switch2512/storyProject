@@ -7,7 +7,7 @@ import Scene      from "../../components/Scene";
 import ComingSoon from "../ComingSoon";
 import henry7 from "./henry7"
 
-export default function henry6({ goTo }) {
+export default function henry6({ goTo, applyCharacter }) {
   return (
     <Scene
       title="NNNNUUUUUUUUHHH"
@@ -21,7 +21,7 @@ export default function henry6({ goTo }) {
         </>
       }
     >
-      <button className="choice-btn" onClick={() => goTo(henry7, -100000)}>
+      <button className="choice-btn" onClick={() => { goTo(henry7, -100000); applyCharacter("Henry Popped") }}>
         Just oooooooooooone more
       </button>
       <button className="choice-btn" onClick={() => goTo(ComingSoon)}>

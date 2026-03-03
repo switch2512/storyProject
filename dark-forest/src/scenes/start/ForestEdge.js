@@ -8,7 +8,7 @@ import HenryHarkins from "../henry/HenryHarkins";
 import cedricVain from "../cedricVain/cedric1"
 import ComingSoon  from "../ComingSoon";
 
-export default function ForestEdge({ goTo, unlockCharisma, newTitle, summonImage }) {
+export default function ForestEdge({ goTo, unlockCharisma, newTitle, summonImage, applyCharacter }) {
   return (
     <Scene
       title="The Forest's Edge"
@@ -27,16 +27,16 @@ export default function ForestEdge({ goTo, unlockCharisma, newTitle, summonImage
         </>
       }
     >
-      <button className="choice-btn" onClick={() => { goTo(cedricVain); newTitle("Establishment Space") }}>
+      <button className="choice-btn" onClick={() => { goTo(cedricVain); newTitle("Establishment Space"); applyCharacter("Cedric Vain") }}>
         Cedric Vain
       </button>
-      <button className="choice-btn" onClick={() => { unlockCharisma(); goTo(HenryHarkins, +50); newTitle("The Hard Adventures of Hard Henry Harkins")}}>
+      <button className="choice-btn" onClick={() => { unlockCharisma(); goTo(HenryHarkins, +50); newTitle("The Hard Adventures of Hard Henry Harkins"); applyCharacter("Henry Harkins")}}>
         Henry Harkins
       </button>
       <button className="choice-btn" onClick={() => goTo(ComingSoon)}>
         Wes Dayley
       </button>
-      <button className="choice-btn" onClick={() => { goTo(testing); summonImage("Ork")}}>
+      <button className="choice-btn" onClick={() => { goTo(testing); summonImage("Ork"); applyCharacter("Cedric Vain") }}>
         Testing Button
       </button>
     </Scene>

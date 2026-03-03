@@ -18,9 +18,6 @@ export default function henry8({ goTo }) {
       }
     >
       <button className="choice-btn" onClick={() => goTo(ComingSoon)}>
-        Flex one more time, for the girls <em>way</em> in the back
-      </button>
-      <button className="choice-btn" onClick={() => goTo(ComingSoon)}>
         Follow the river downstream
       </button>
       <button className="choice-btn" onClick={() => goTo(ComingSoon)}>

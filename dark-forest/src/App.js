@@ -16,6 +16,7 @@ import { SUGGESTION_URL } from "./constants";
 import StatsBar  from "./components/StatsBar";
 import Popup     from "./components/Popup";
 import Enemy     from "./components/Enemy"
+import Character from "./components/Character"
 
 // ── Initial scene ──
 import ForestEdge from "./scenes/start/ForestEdge";
@@ -37,6 +38,7 @@ export default function App() {
   const [enemyHealth,   setEnemyHealth]  = useState(0);
   const [enemyType,     setEnemyType]    = useState("");
   const [image,             setImage]    = useState("");
+  const [character,     setCharacter]    = useState("");
 
   // True from the moment delayedPopup is called until the last popup is dismissed.
   const blocked = pendingCount > 0 || popupQueue.length > 0;
@@ -106,6 +108,11 @@ export default function App() {
   function newTitle(name) {
     setGameTitle(name)
   }
+
+  function applyCharacter(name) {
+    setCharacter(name)
+  }
+
   // ── Enemy Functions ─────────────────────────────────────────────────
   function applyEnemyHealth(amount) {
     setEnemyHealth(enemyHealth + amount)
@@ -136,6 +143,7 @@ export default function App() {
     setGameTitle("The Dark Forest")
     setEnemyType("")
     setImage("");
+    setCharacter("")
   }
 
   // ── Render ──────────────────────────────────────────────────
@@ -185,6 +193,9 @@ export default function App() {
 
         {/* Scene + Enemy side by side */}
         <div className="scene-row">
+          <Character
+            character={character}
+          />
           <CurrentScene
             key={CurrentScene.name}
             goTo={goTo}
@@ -198,6 +209,7 @@ export default function App() {
             applyEnemyHealth={applyEnemyHealth}
             summonEnemy={summonEnemy}
             summonImage={summonImage}
+            applyCharacter={applyCharacter}
           />
           <Enemy
             enemyType={enemyType}
