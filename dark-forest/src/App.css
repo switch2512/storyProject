@@ -295,3 +295,46 @@
 .ending-label.good    { color: #7fc47a; }
 .ending-label.bad     { color: #c47a7a; }
 .ending-label.neutral { color: #c8a84b; }
+
+/* ── Mobile ── */
+@media (max-width: 700px) {
+
+  /* Stop content hiding behind the fixed buttons */
+  #game-container {
+    padding-top: 60px;
+  }
+
+  /* Stack scene, character, and enemy vertically */
+  .scene-row {
+    flex-direction: column;
+  }
+
+  /* Enemy panel goes full width when stacked */
+  .enemy-panel {
+    width: 100%;
+  }
+
+  /* Scale down the title so it doesn't overflow */
+  .game-title {
+    font-size: 1.6rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* Anchor content to the top rather than floating in the middle */
+  .page {
+    align-items: flex-start;
+  }
+
+  /* Shrink the fixed buttons so they don't collide */
+  .top-left-btn,
+  .top-right-btn {
+    font-size: 0.75rem;
+    padding: 8px 12px;
+  }
+
+  /* Keep the popup from bleeding off the screen edges */
+  .popup {
+    width: calc(100% - 40px);
+    padding: 24px 20px;
+  }
+}
